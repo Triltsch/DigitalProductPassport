@@ -8,10 +8,6 @@
     "npm test": true,
     "dir": true,
     "rg": true,
-    "npm install": true,
-    "git add": true,
-    "git push": true,
-    "gh": true,
     "git rev-parse": true,
     "ConvertFrom-Json": true
   },

@@ -28,8 +28,8 @@ agent: AAS-sprint-planner
 # Verbindliche Quellen
 
 Arbeite ausschließlich auf Basis dieser Dokumente:
-- `docs/08_backlog_roadmap.md`
-- `docs/05_system_architecture.md`
+- `doc/planning/08_backlog_roadmap.md`
+- `doc/planning/05_system_architecture.md`
 
 Wenn Informationen außerhalb dieser Dokumente verwendet werden müssen, markiere diese explizit als **Annahme**.
 

@@ -2,9 +2,10 @@
 
 ## 1. Docker Compose Architecture
 
-The full system is orchestrated via Docker Compose. Two profiles are maintained:
+The full system is orchestrated via Docker Compose. Three profiles are maintained:
 
-- **`dev`** (default): All core services + file storage + auth + optional observability
+- **`dev`** (default): All core services + file storage + auth
+- **`observability`** (optional): Prometheus, Grafana, Loki, and Promtail
 - **`prod`**: Same as `dev` with production-grade secrets injection, TLS, and hardened configuration
 
 ### 1.1 Full Docker Compose Service Map
