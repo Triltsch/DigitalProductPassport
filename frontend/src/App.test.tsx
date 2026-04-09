@@ -14,9 +14,7 @@ describe("App", () => {
   it("renders the foundation shell and feature slices", () => {
     render(<App />);
 
-    expect(
-      screen.getByRole("heading", { name: /digital product passport/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /digital product passport/i })).toBeInTheDocument();
     expect(screen.getByText("dashboard")).toBeInTheDocument();
   });
 });
