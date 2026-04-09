@@ -2,6 +2,7 @@
 .env
 .venv/
 venv/
+.vscode/settings.json
 
 # Python
 __pycache__/

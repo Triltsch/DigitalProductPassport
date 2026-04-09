@@ -2,7 +2,7 @@
 
 This repository contains the planning artifacts and implementation scaffold for the Digital Product Passport project.
 
-The current state reflects Sprint 0 structure enablement only. No application features are implemented yet. The repository now provides the directory layout and onboarding entry points required for follow-up issues to add backend, frontend, infrastructure, and CI functionality incrementally.
+The current state reflects Sprint 0 structure enablement plus a Docker Compose core stack baseline for local full-stack startup. Application business features are still intentionally deferred to follow-up Sprint 0 issues.
 
 ## Repository Layout
 
@@ -20,14 +20,47 @@ The current state reflects Sprint 0 structure enablement only. No application fe
 
 1. Read the planning overview in `doc/planning/README.md`.
 2. Use the folder READMEs in `backend/`, `frontend/`, and `infra/` to understand the intended implementation boundaries.
-3. Copy `.env.example` to `.env` when runtime configuration is introduced by later Sprint 0 issues.
-4. Implement application code only in the follow-up setup issues for backend, frontend, Docker Compose, and CI.
+3. Copy `.env.example` to `.env` before running the local stack.
+4. Start the local core stack with `docker compose up -d`.
+5. Stop and clean up with `docker compose down` (or `docker compose down -v` to remove persisted data).
 
 ## Current Boundaries
 
 - This scaffold intentionally contains no runnable backend or frontend code yet.
 - The directory structure mirrors the architecture described in `doc/planning/05_system_architecture.md` and `doc/planning/07_modules.md`.
-- Infrastructure directories are placeholders for later issues such as Docker Compose, Keycloak realm setup, observability, and recovery runbooks.
+- The Compose services for `frontend` and `backend` currently run scaffold-safe placeholder HTTP servers until their dedicated setup issues are implemented.
+
+## Local Core Stack (Sprint 0)
+
+The root `docker-compose.yml` defines the Sprint 0 core services:
+
+- `frontend`
+- `backend`
+- `postgres`
+- `mongo`
+- `minio`
+- `keycloak`
+- `traefik`
+
+### Networks
+
+- `dpp_internal`: internal-only bridge network for data and auth services.
+- `dpp_public`: bridge network exposed through Traefik.
+
+### Persistent Volumes
+
+- `postgres_data`
+- `mongo_data`
+- `minio_data`
+- `keycloak_data`
+
+### Local Endpoints
+
+- Frontend via Traefik: `http://dpp.localhost`
+- Backend via Traefik: `http://api.dpp.localhost`
+- Traefik dashboard: disabled by default in this scaffold for safer local defaults
+- Keycloak direct access: `http://localhost:8080`
+- MinIO API/Console: `http://localhost:9000` / `http://localhost:9001`
 
 ## Related Planning Documents
 
