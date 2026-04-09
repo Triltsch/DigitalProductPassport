@@ -14,7 +14,7 @@ frontend/
     `-- api/               API clients and data hooks
 ```
 
-The scaffold reflects the feature-based architecture defined in the planning documents. The actual Vite, TypeScript, ESLint, Prettier, and UI tooling setup is deferred to the dedicated frontend initialization issue.
+The scaffold reflects the feature-based architecture defined in the planning documents and now includes the baseline Vite, TypeScript, ESLint, Prettier, and testing setup for the frontend application.
 
 ## Tooling Baseline
 
