@@ -56,3 +56,13 @@
 
 - If MCP active PR lookup fails, fall back to `gh pr view <N> --json reviews,comments` plus `gh api repos/<owner>/<repo>/pulls/<N>/comments`.
 - For true unresolved-review detection, query GraphQL `reviewThreads`; pull-review comments alone do not include thread resolution state.
+- In sandboxed CI environments, the GitHub REST and GraphQL APIs may be blocked by a DNS monitoring proxy even when `GITHUB_TOKEN` is set; in that case, deliver the review as a structured response and commit the findings to `LEARNINGS.md`.
+
+## Authentication and JWT Validation
+
+- Pin `jwt_algorithm` to an explicit allowlist (e.g., `["RS256"]`) in `jwt.decode()` rather than making it freely configurable via an env var, which could be set to `"none"` or a weak algorithm.
+- Never commit client secrets in realm JSON files, even for development; use env-var substitution or auto-generate secrets at first startup.
+- FastAPI `@app.on_event("startup")` is deprecated since FastAPI 0.93; use the `lifespan` context manager pattern instead.
+- When `lru_cache` is used on FastAPI dependencies (e.g., `get_token_validator`), tests must call `.cache_clear()` before and after to prevent cross-test pollution.
+- Traefik label-based routing in `docker-compose.yml` is silently ignored when only the `file` provider is configured; routing must be in `dynamic.yml` in that case — do not duplicate route definitions in both places.
+- Use `service_healthy` (not `service_started`) for the Keycloak `depends_on` condition to avoid the backend connecting before Keycloak is ready to serve tokens.
