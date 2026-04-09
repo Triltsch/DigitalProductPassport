@@ -25,3 +25,5 @@
 - Application modules should avoid import-time logging side effects; initialize logging during app startup to keep imports deterministic for tests and tooling.
 - Vite, Vitest, and the React plugin should stay on compatible major versions; otherwise `vite.config.ts` can fail TypeScript builds even when runtime tooling appears correctly configured.
 - In solution-style TypeScript setups that use project references, referenced configs should be `composite`, and repository `typecheck` scripts should use `tsc -b` so the referenced projects are actually validated.
+- CI lint steps should prefer module invocation (for example `python -m ruff`) over bare executables to avoid PATH-specific failures across different runner and shell environments.
+- In MCP-first PR review workflows, `github-pull-request_activePullRequest` can return "There is no active pull request" even when the checked-out branch matches the PR head; in that case, use the explicit fallback `gh pr view <N> --json reviews,comments` plus `gh api repos/<owner>/<repo>/pulls/<N>/comments` to ensure review coverage.
