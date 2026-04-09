@@ -16,6 +16,7 @@ __pycache__/
 node_modules/
 dist/
 coverage/
+*.tsbuildinfo
 
 # Editors and OS files
 .DS_Store
