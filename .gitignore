@@ -1,5 +1,6 @@
 # Local environment
 .env
+.aas_py/
 .venv/
 venv/
 .vscode/settings.json

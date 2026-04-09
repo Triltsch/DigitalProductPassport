@@ -1,0 +1,27 @@
+http:
+  routers:
+    frontend-localhost:
+      rule: Host(`localhost`)
+      entryPoints:
+        - web
+      service: frontend
+    frontend:
+      rule: Host(`dpp.localhost`)
+      entryPoints:
+        - web
+      service: frontend
+    backend:
+      rule: Host(`api.dpp.localhost`)
+      entryPoints:
+        - web
+      service: backend
+
+  services:
+    frontend:
+      loadBalancer:
+        servers:
+          - url: http://frontend:5173
+    backend:
+      loadBalancer:
+        servers:
+          - url: http://backend:8000

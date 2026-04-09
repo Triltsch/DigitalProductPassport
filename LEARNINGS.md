@@ -26,11 +26,13 @@
 - Keep cross-service credentials/defaults consistent so stack startup does not require hidden bootstrap steps.
 - When one PostgreSQL container serves multiple consumers, provision extra DBs/roles via init scripts in `/docker-entrypoint-initdb.d/`.
 - Include observability and reproducibility concerns in Docker-first decisions from the start.
+- On Docker Desktop setups where Traefik Docker provider repeatedly fails against the daemon API, use Traefik file provider with static `dynamic.yml` routes for local development instead of Docker provider discovery.
 
 ## Backend and Python
 
 - Avoid import-time logging side effects; initialize logging during app startup.
 - Add explicit `__init__.py` files in new Python package paths to keep pytest/mypy/ruff discovery predictable.
+- Standardize backend local tooling on a dedicated repository-root virtual environment (for example `.aas_py`) and invoke tools through that interpreter to avoid global-package drift.
 
 ## Database and Migrations
 

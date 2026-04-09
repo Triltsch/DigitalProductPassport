@@ -6,6 +6,7 @@ This repository contains the planning artifacts and implementation scaffold for 
 
 - Sprint 0 foundation is in place for infrastructure, backend, frontend, and CI quality gates.
 - The backend includes a runnable FastAPI scaffold and an Alembic PostgreSQL migration baseline.
+- Keycloak realm import and backend JWT validation foundations are prepared for upcoming auth flows.
 - The frontend includes a React/TypeScript scaffold with lint, typecheck, format, test, and build tooling.
 - Product features are intentionally deferred to follow-up sprint issues.
 
@@ -16,6 +17,7 @@ This repository contains the planning artifacts and implementation scaffold for 
 - Core local platform via Docker Compose (`frontend`, `backend`, `postgres`, `mongo`, `minio`, `keycloak`, `traefik`).
 - Backend scaffold under `backend/app` with health/config foundations.
 - PostgreSQL migration baseline via Alembic in `backend/app/infrastructure/db/migrations`.
+- Keycloak realm baseline in `infra/keycloak/realm-import/dpp-realm.json` and backend JWT validation primitives in `backend/app/infrastructure/keycloak`.
 - Frontend foundation with Vite/React/TypeScript tooling.
 - CI baseline at `.github/workflows/ci.yml` for backend and frontend verification.
 
@@ -29,9 +31,13 @@ This repository contains the planning artifacts and implementation scaffold for 
 
 1. Read the planning overview in `doc/planning/README.md`.
 2. Use folder READMEs in `backend/`, `frontend/`, and `infra/` for module boundaries.
-3. Copy `.env.example` to `.env`.
-4. Start the stack: `docker compose up -d`.
-5. Stop the stack: `docker compose down` (or `docker compose down -v` to remove persisted data).
+3. Create a local Python virtual environment for backend work:
+	- `python -m venv .aas_py`
+4. Install backend dependencies with the venv interpreter:
+	- `.\.aas_py\Scripts\python -m pip install -e ".\backend[test]"`
+5. Copy `.env.example` to `.env`.
+6. Start the stack: `docker compose up -d`.
+7. Stop the stack: `docker compose down` (or `docker compose down -v` to remove persisted data).
 
 ## Local Core Stack
 

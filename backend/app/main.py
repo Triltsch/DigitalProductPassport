@@ -1,10 +1,16 @@
 """FastAPI app factory and application entrypoint."""
 
+import logging
+
 from fastapi import FastAPI
 
 from app.api.health import router as health_router
 from app.config import get_settings
+from app.dependencies import get_token_validator
 from app.logging import configure_logging
+
+
+logger = logging.getLogger(__name__)
 
 
 def create_app() -> FastAPI:
@@ -22,6 +28,11 @@ def create_app() -> FastAPI:
     @app.on_event("startup")
     def setup_logging() -> None:
         configure_logging(settings)
+        if settings.keycloak_preload_jwks:
+            try:
+                get_token_validator().prime_jwks_cache()
+            except Exception:
+                logger.warning("Failed to preload Keycloak JWKS cache during startup.", exc_info=True)
 
     app.include_router(health_router)
     return app

@@ -7,9 +7,9 @@ entryPoints:
     address: ":80"
 
 providers:
-  docker:
-    exposedByDefault: false
-    network: dpp_public
+  file:
+    filename: /etc/traefik/dynamic.yml
+    watch: true
 
 log:
   level: INFO
