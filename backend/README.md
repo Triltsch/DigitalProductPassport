@@ -31,8 +31,8 @@ backend/
 - Environment-variable configuration via Pydantic settings in `app/config.py`.
 - Base structured logging initialization in `app/logging.py`.
 - Health endpoints:
-	- `GET /health/live`
-	- `GET /health/ready`
+  - `GET /health/live`
+  - `GET /health/ready`
 - Initial backend tests for settings and health routes.
 
 ## Local run

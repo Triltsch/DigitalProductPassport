@@ -22,3 +22,4 @@
 - Avoid `image: <name>:latest` in Docker Compose files; pin to a specific release tag so stack behaviour is reproducible and upgrades are explicit.
 - Docker Compose scaffolds should keep cross-service defaults consistent (for example, Keycloak/Postgres DB credentials) so local startup succeeds without hidden bootstrap SQL steps.
 - Running `pip install -e .` inside `backend/` creates `backend/dpp_backend.egg-info`; remove or ignore this generated artifact before committing to keep changesets source-only.
+- Application modules should avoid import-time logging side effects; initialize logging during app startup to keep imports deterministic for tests and tooling.

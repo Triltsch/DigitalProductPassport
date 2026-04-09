@@ -10,7 +10,6 @@ from app.logging import configure_logging
 def create_app() -> FastAPI:
     """Build and configure the FastAPI application instance."""
     settings = get_settings()
-    configure_logging(settings)
 
     app = FastAPI(
         title=settings.service_name,
@@ -19,6 +18,11 @@ def create_app() -> FastAPI:
         docs_url="/docs",
         redoc_url="/redoc",
     )
+
+    @app.on_event("startup")
+    def setup_logging() -> None:
+        configure_logging(settings)
+
     app.include_router(health_router)
     return app
 
