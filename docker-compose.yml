@@ -6,8 +6,13 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-dpp}
       POSTGRES_USER: ${POSTGRES_USER:-dpp}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      # Forwarded so the init script can create the Keycloak database and role.
+      KEYCLOAK_DB_NAME: ${KEYCLOAK_DB_NAME:-keycloak}
+      KEYCLOAK_DB_USER: ${KEYCLOAK_DB_USER:-keycloak}
+      KEYCLOAK_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD:-changeme}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./infra/postgres/init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-dpp} -d ${POSTGRES_DB:-dpp}"]
       interval: 10s
@@ -30,7 +35,7 @@ services:
       - dpp_internal
 
   minio:
-    image: minio/minio:latest
+    image: minio/minio:RELEASE.2025-02-07T23-21-09Z
     restart: unless-stopped
     command: server /data --console-address ":9001"
     environment:
