@@ -6,7 +6,9 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-dpp}
       POSTGRES_USER: ${POSTGRES_USER:-dpp}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
-      # Forwarded so the init script can create the Keycloak database and role.
+      # Read by infra/postgres/init/01-keycloak-db.sh which runs ONLY on first
+      # container start when the postgres_data volume is empty. Changing these
+      # values later has no effect until the volume is recreated (`down -v`).
       KEYCLOAK_DB_NAME: ${KEYCLOAK_DB_NAME:-keycloak}
       KEYCLOAK_DB_USER: ${KEYCLOAK_DB_USER:-keycloak}
       KEYCLOAK_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD:-changeme}
