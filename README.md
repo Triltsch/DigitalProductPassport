@@ -2,46 +2,38 @@
 
 This repository contains the planning artifacts and implementation scaffold for the Digital Product Passport project.
 
-The current state reflects Sprint 0 structure enablement plus a Docker Compose core stack baseline for local full-stack startup. A minimal FastAPI backend foundation is available; application business features are still intentionally deferred to follow-up Sprint 0 issues.
+## Current Status
 
-## Repository Layout
+- Sprint 0 foundation is in place for infrastructure, backend, frontend, and CI quality gates.
+- The backend includes a runnable FastAPI scaffold and an Alembic PostgreSQL migration baseline.
+- The frontend includes a React/TypeScript scaffold with lint, typecheck, format, test, and build tooling.
+- Product features are intentionally deferred to follow-up sprint issues.
 
-```text
-.
-|-- backend/        Python/FastAPI service scaffold and test layout
-|-- doc/            Planning, seed material, and project documentation
-|-- frontend/       React/TypeScript application scaffold layout
-|-- infra/          Docker, auth, observability, and operations scaffold
-|-- LEARNINGS.md    Repository learnings captured during implementation
-`-- ensure-milestones.ps1
-```
+## Sprint 0 Scope
 
-## Developer Onboarding
+### Completed
+
+- Core local platform via Docker Compose (`frontend`, `backend`, `postgres`, `mongo`, `minio`, `keycloak`, `traefik`).
+- Backend scaffold under `backend/app` with health/config foundations.
+- PostgreSQL migration baseline via Alembic in `backend/app/infrastructure/db/migrations`.
+- Frontend foundation with Vite/React/TypeScript tooling.
+- CI baseline at `.github/workflows/ci.yml` for backend and frontend verification.
+
+### Next Steps
+
+1. Replace the scaffold-safe backend container command with dedicated containerization work.
+2. Implement first business feature slices aligned with planning documents.
+3. Extend CI and runtime observability as feature modules are introduced.
+
+## Quick Start
 
 1. Read the planning overview in `doc/planning/README.md`.
-2. Use the folder READMEs in `backend/`, `frontend/`, and `infra/` to understand the intended implementation boundaries.
-3. Copy `.env.example` to `.env` before running the local stack.
-4. Start the local core stack with `docker compose up -d`.
-5. Stop and clean up with `docker compose down` (or `docker compose down -v` to remove persisted data).
+2. Use folder READMEs in `backend/`, `frontend/`, and `infra/` for module boundaries.
+3. Copy `.env.example` to `.env`.
+4. Start the stack: `docker compose up -d`.
+5. Stop the stack: `docker compose down` (or `docker compose down -v` to remove persisted data).
 
-## Current Boundaries
-
-- The backend now includes a minimal runnable FastAPI foundation with configuration and health endpoints under `backend/app`.
-- Frontend now includes a React/TypeScript foundation with build, lint, format, and test tooling; business feature implementation is still pending.
-- The directory structure mirrors the architecture described in `doc/planning/05_system_architecture.md` and `doc/planning/07_modules.md`.
-- The Compose `backend` service still uses a scaffold-safe placeholder command until dedicated containerization follow-up work is implemented.
-
-## Continuous Integration
-
-The repository now includes a CI workflow at `.github/workflows/ci.yml`.
-
-- Trigger: pull requests targeting `main` and direct pushes to `main`
-- Backend job: `ruff check`, `pytest`, and wheel build (`python -m build`); pip dependencies are cached against `backend/pyproject.toml`
-- Frontend job: `npm run lint`, `npm run typecheck`, `npm run format:check`, `npm run test:run`, and `npm run build`; npm dependencies are cached against `frontend/package-lock.json`
-
-This pipeline provides the baseline quality gate for Sprint 0 and is intended to be extended in later sprints.
-
-## Local Core Stack (Sprint 0)
+## Local Core Stack
 
 The root `docker-compose.yml` defines the Sprint 0 core services:
 
@@ -73,7 +65,27 @@ The root `docker-compose.yml` defines the Sprint 0 core services:
 - Keycloak direct access: `http://localhost:8080`
 - MinIO API/Console: `http://localhost:9000` / `http://localhost:9001`
 
-## Related Planning Documents
+## Continuous Integration
+
+The repository includes a CI workflow at `.github/workflows/ci.yml`.
+
+- Trigger: pull requests to `main` and direct pushes to `main`
+- Backend job: `python -m ruff check`, `python -m pytest`, and `python -m build --wheel`
+- Frontend job: `npm run lint`, `npm run typecheck`, `npm run format:check`, `npm run test:run`, and `npm run build`
+
+## Repository Layout
+
+```text
+.
+|-- backend/        Python/FastAPI service scaffold and test layout
+|-- doc/            Planning, seed material, and project documentation
+|-- frontend/       React/TypeScript application scaffold layout
+|-- infra/          Docker, auth, observability, and operations scaffold
+|-- LEARNINGS.md    Repository learnings captured during implementation
+`-- ensure-milestones.ps1
+```
+
+## Planning References
 
 - `doc/planning/05_system_architecture.md`
 - `doc/planning/07_modules.md`
