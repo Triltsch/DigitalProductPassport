@@ -58,7 +58,7 @@ The root `docker-compose.yml` defines the Sprint 0 core services:
 
 - Frontend via Traefik: `http://dpp.localhost`
 - Backend via Traefik: `http://api.dpp.localhost`
-- Traefik dashboard: `http://localhost:8088`
+- Traefik dashboard: disabled by default in this scaffold for safer local defaults
 - Keycloak direct access: `http://localhost:8080`
 - MinIO API/Console: `http://localhost:9000` / `http://localhost:9001`
 

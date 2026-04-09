@@ -20,3 +20,4 @@
 - When sharing a single PostgreSQL container between multiple services (e.g., the app DB and Keycloak), use a PostgreSQL init script mounted at `/docker-entrypoint-initdb.d/` to provision additional databases and roles on first start. Pass the required env vars into the postgres service so the script can read them.
 - Docker Compose files and all text configuration files should always end with a trailing newline to conform to POSIX convention and avoid noisy diffs.
 - Avoid `image: <name>:latest` in Docker Compose files; pin to a specific release tag so stack behaviour is reproducible and upgrades are explicit.
+- Docker Compose scaffolds should keep cross-service defaults consistent (for example, Keycloak/Postgres DB credentials) so local startup succeeds without hidden bootstrap SQL steps.
