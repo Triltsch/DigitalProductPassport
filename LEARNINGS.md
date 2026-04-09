@@ -10,3 +10,7 @@
 - Prompt and agent files should reference canonical repository paths (`doc/planning/...`) to avoid drift between generated documentation and automation prompts.
 - Shared repository settings should avoid auto-approving state-changing terminal commands (`git push`, `git add`, package installs, broad `gh` commands) to reduce accidental destructive operations.
 - Documentation quality checks should include a lightweight markdown lint pass for table integrity and terminology consistency before opening PRs.
+
+## 2026-04-09
+
+- Repository scaffold commits should include `.gitkeep` placeholders in empty domain folders to preserve intended architecture in Git.
