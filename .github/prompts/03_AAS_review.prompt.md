@@ -46,8 +46,6 @@ Given a pull request, perform the necessary steps in the following order:
 - Run checks. Fix all warnings and errors before proceeding to the next step.
 - Use repository-native validation only:
   - run VS Code task `Checks` if present
-  - run `npm test` from repository root
-  - if startup behavior is touched, run a short smoke check with `npm start` and report the result
 - Fix all warnings and errors before proceeding to the next step.
 
 ## Commit and push
