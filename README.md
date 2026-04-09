@@ -36,8 +36,8 @@ The current state reflects Sprint 0 structure enablement plus a Docker Compose c
 The repository now includes a CI workflow at `.github/workflows/ci.yml`.
 
 - Trigger: pull requests targeting `main` and direct pushes to `main`
-- Backend job: `ruff check`, `pytest`, and wheel build (`python -m build`)
-- Frontend job: `npm run lint`, `npm run test:run`, and `npm run build`
+- Backend job: `ruff check`, `pytest`, and wheel build (`python -m build`); pip dependencies are cached against `backend/pyproject.toml`
+- Frontend job: `npm run lint`, `npm run typecheck`, `npm run format:check`, `npm run test:run`, and `npm run build`; npm dependencies are cached against `frontend/package-lock.json`
 
 This pipeline provides the baseline quality gate for Sprint 0 and is intended to be extended in later sprints.
 
