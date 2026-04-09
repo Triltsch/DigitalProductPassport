@@ -7,8 +7,8 @@ Create Date: ${create_date}
 
 from __future__ import annotations
 
-from alembic import op
-import sqlalchemy as sa
+from alembic import op  # noqa: F401
+import sqlalchemy as sa  # noqa: F401
 
 
 # revision identifiers, used by Alembic.

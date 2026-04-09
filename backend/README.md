@@ -63,9 +63,9 @@ From the `backend/` folder:
 
 ```powershell
 pip install -e .[test]
-alembic current
-alembic revision -m "describe change"
-alembic upgrade head
+python -m alembic current
+python -m alembic revision -m "describe change"
+python -m alembic upgrade head
 ```
 
 Notes:
