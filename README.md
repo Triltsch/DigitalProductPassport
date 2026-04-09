@@ -2,7 +2,7 @@
 
 This repository contains the planning artifacts and implementation scaffold for the Digital Product Passport project.
 
-The current state reflects Sprint 0 structure enablement plus a Docker Compose core stack baseline for local full-stack startup. Application business features are still intentionally deferred to follow-up Sprint 0 issues.
+The current state reflects Sprint 0 structure enablement plus a Docker Compose core stack baseline for local full-stack startup. A minimal FastAPI backend foundation is available; application business features are still intentionally deferred to follow-up Sprint 0 issues.
 
 ## Repository Layout
 
@@ -26,9 +26,10 @@ The current state reflects Sprint 0 structure enablement plus a Docker Compose c
 
 ## Current Boundaries
 
-- This scaffold intentionally contains no runnable backend or frontend code yet.
+- The backend now includes a minimal runnable FastAPI foundation with configuration and health endpoints under `backend/app`.
+- Frontend business features are still scaffold-only.
 - The directory structure mirrors the architecture described in `doc/planning/05_system_architecture.md` and `doc/planning/07_modules.md`.
-- The Compose services for `frontend` and `backend` currently run scaffold-safe placeholder HTTP servers until their dedicated setup issues are implemented.
+- The Compose `backend` service still uses a scaffold-safe placeholder command until dedicated containerization follow-up work is implemented.
 
 ## Local Core Stack (Sprint 0)
 
