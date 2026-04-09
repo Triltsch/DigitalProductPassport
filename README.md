@@ -31,6 +31,16 @@ The current state reflects Sprint 0 structure enablement plus a Docker Compose c
 - The directory structure mirrors the architecture described in `doc/planning/05_system_architecture.md` and `doc/planning/07_modules.md`.
 - The Compose `backend` service still uses a scaffold-safe placeholder command until dedicated containerization follow-up work is implemented.
 
+## Continuous Integration
+
+The repository now includes a CI workflow at `.github/workflows/ci.yml`.
+
+- Trigger: pull requests targeting `main` and direct pushes to `main`
+- Backend job: `ruff check`, `pytest`, and wheel build (`python -m build`)
+- Frontend job: `npm run lint`, `npm run test:run`, and `npm run build`
+
+This pipeline provides the baseline quality gate for Sprint 0 and is intended to be extended in later sprints.
+
 ## Local Core Stack (Sprint 0)
 
 The root `docker-compose.yml` defines the Sprint 0 core services:

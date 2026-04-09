@@ -25,3 +25,4 @@
 - Application modules should avoid import-time logging side effects; initialize logging during app startup to keep imports deterministic for tests and tooling.
 - Vite, Vitest, and the React plugin should stay on compatible major versions; otherwise `vite.config.ts` can fail TypeScript builds even when runtime tooling appears correctly configured.
 - In solution-style TypeScript setups that use project references, referenced configs should be `composite`, and repository `typecheck` scripts should use `tsc -b` so the referenced projects are actually validated.
+- CI lint steps should prefer module invocation (for example `python -m ruff`) over bare executables to avoid PATH-specific failures across different runner and shell environments.
