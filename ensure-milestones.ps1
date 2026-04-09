@@ -6,7 +6,9 @@ function Get-StatusCode {
   return ''
 }
 
-$repo = 'Triltsch/DigitalProductPassport'
+# Derive repo from local git context; fall back to the canonical name.
+$repo = (& gh repo view --json nameWithOwner --jq .nameWithOwner 2>$null) -replace '\s',''
+if (-not $repo) { $repo = 'Triltsch/DigitalProductPassport' }
 $endpoint = "repos/$repo/milestones"
 $desired = @(
   @{ title='M1: Foundation'; description='Running dev environment, CI/CD' },
@@ -19,9 +21,10 @@ $desired = @(
   @{ title='M8: Compliance'; description='EU Battery Regulation export' }
 )
 
-# 1) list existing milestones (all states)
-$listCmd = "gh api `"${endpoint}?state=all`" --paginate"
-$listOut = & gh api "${endpoint}?state=all" --paginate 2>&1
+# 1) list existing milestones (all states); per_page=100 fits all milestones in one response
+#    and avoids multi-page JSON concatenation that ConvertFrom-Json cannot parse.
+$listCmd = "gh api `"${endpoint}?state=all&per_page=100`""
+$listOut = & gh api "${endpoint}?state=all&per_page=100" 2>&1
 if ($LASTEXITCODE -ne 0) {
   $t = $listOut | Out-String
   "API_ERROR|$listCmd|$(Get-StatusCode $t)|$t"
@@ -48,9 +51,9 @@ foreach ($m in $desired) {
   }
 }
 
-# 3) list again and compact table
-$finalCmd = "gh api `"${endpoint}?state=all`" --paginate"
-$finalOut = & gh api "${endpoint}?state=all" --paginate 2>&1
+# 3) list again and compact table; same single-page strategy as step 1.
+$finalCmd = "gh api `"${endpoint}?state=all&per_page=100`""
+$finalOut = & gh api "${endpoint}?state=all&per_page=100" 2>&1
 if ($LASTEXITCODE -ne 0) {
   $t = $finalOut | Out-String
   "API_ERROR|$finalCmd|$(Get-StatusCode $t)|$t"
