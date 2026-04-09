@@ -27,7 +27,7 @@ The current state reflects Sprint 0 structure enablement plus a Docker Compose c
 ## Current Boundaries
 
 - The backend now includes a minimal runnable FastAPI foundation with configuration and health endpoints under `backend/app`.
-- Frontend business features are still scaffold-only.
+- Frontend now includes a React/TypeScript foundation with build, lint, format, and test tooling; business feature implementation is still pending.
 - The directory structure mirrors the architecture described in `doc/planning/05_system_architecture.md` and `doc/planning/07_modules.md`.
 - The Compose `backend` service still uses a scaffold-safe placeholder command until dedicated containerization follow-up work is implemented.
 

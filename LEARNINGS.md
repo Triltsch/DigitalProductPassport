@@ -23,3 +23,5 @@
 - Docker Compose scaffolds should keep cross-service defaults consistent (for example, Keycloak/Postgres DB credentials) so local startup succeeds without hidden bootstrap SQL steps.
 - Running `pip install -e .` inside `backend/` creates `backend/dpp_backend.egg-info`; remove or ignore this generated artifact before committing to keep changesets source-only.
 - Application modules should avoid import-time logging side effects; initialize logging during app startup to keep imports deterministic for tests and tooling.
+- Vite, Vitest, and the React plugin should stay on compatible major versions; otherwise `vite.config.ts` can fail TypeScript builds even when runtime tooling appears correctly configured.
+- In solution-style TypeScript setups that use project references, referenced configs should be `composite`, and repository `typecheck` scripts should use `tsc -b` so the referenced projects are actually validated.
