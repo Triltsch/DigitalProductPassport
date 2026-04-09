@@ -13,14 +13,27 @@ class Settings(BaseSettings):
     environment: str = Field(default="development", alias="DPP_ENVIRONMENT")
     log_level: str = Field(default="INFO", alias="DPP_LOG_LEVEL")
     api_v1_prefix: str = Field(default="/api/v1", alias="DPP_API_V1_PREFIX")
+    database_url: str = Field(
+        default="postgresql+asyncpg://dpp:changeme@localhost:5432/dpp",
+        alias="DATABASE_URL",
+    )
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=(".env", "../.env"),
         env_file_encoding="utf-8",
         case_sensitive=False,
         extra="ignore",
         populate_by_name=True,
     )
+
+    @property
+    def alembic_database_url(self) -> str:
+        """Return a synchronous SQLAlchemy URL suitable for Alembic."""
+
+        if self.database_url.startswith("postgresql+asyncpg://"):
+            return self.database_url.replace("postgresql+asyncpg://", "postgresql+psycopg://", 1)
+
+        return self.database_url
 
 
 @lru_cache(maxsize=1)
