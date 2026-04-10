@@ -11,6 +11,12 @@ from app.config import Settings
 from app.infrastructure.keycloak.models import CurrentUser
 
 
+# Algorithms that are safe to use with asymmetric Keycloak-issued tokens.
+# Accepting ``none`` or symmetric algorithms (e.g. ``HS256``) would allow
+# an attacker to forge tokens, so we restrict to RS256 only.
+_ALLOWED_ALGORITHMS: frozenset[str] = frozenset({"RS256"})
+
+
 class TokenValidationError(ValueError):
     """Raised when a JWT cannot be validated against the configured Keycloak realm."""
 
@@ -63,14 +69,27 @@ class KeycloakTokenValidator:
     def validate_token(self, token: str) -> CurrentUser:
         """Validate a JWT and return a normalized authenticated user model."""
 
+        # Guard against algorithm confusion attacks: reject any algorithm that
+        # is not on the explicit allowlist before reaching jwt.decode().
+        algorithm = self._settings.jwt_algorithm
+        if algorithm not in _ALLOWED_ALGORITHMS:
+            raise TokenValidationError(
+                f"Unsupported JWT algorithm configured: {algorithm!r}. "
+                f"Allowed: {sorted(_ALLOWED_ALGORITHMS)}"
+            )
+
+        # Normalize the issuer URL to ensure trailing-slash variants do not
+        # cause spurious validation mismatches.
+        normalized_issuer = self._settings.keycloak_issuer_url.strip().rstrip("/")
+
         try:
             signing_key = self._signing_key_resolver.resolve_signing_key(token)
             claims = jwt.decode(
                 token,
                 key=signing_key,
-                algorithms=[self._settings.jwt_algorithm],
+                algorithms=[algorithm],
                 audience=self._settings.jwt_audience,
-                issuer=self._settings.keycloak_issuer_url,
+                issuer=normalized_issuer,
             )
             return CurrentUser.from_claims(claims)
         except (InvalidTokenError, ValueError) as exc:

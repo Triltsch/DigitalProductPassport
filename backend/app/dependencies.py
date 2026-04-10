@@ -47,7 +47,17 @@ def get_current_user(
 
 
 def require_roles(required_roles: Sequence[str]):
-    """Require the current user to hold at least one of the provided realm roles."""
+    """Require the current user to hold at least one of the provided realm roles.
+
+    Raises ``ValueError`` at decoration time when ``required_roles`` is empty to
+    prevent accidentally granting all authenticated users access.
+    """
+
+    if not required_roles:
+        raise ValueError(
+            "require_roles() called with an empty role list. "
+            "Use get_current_user directly if no role gate is needed."
+        )
 
     required_role_set = frozenset(required_roles)
 

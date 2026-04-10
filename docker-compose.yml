@@ -102,6 +102,9 @@ services:
         condition: service_started
       keycloak:
         condition: service_started
+    # Traefik routing is driven by the file provider (infra/traefik/dynamic.yml).
+    # These labels have no effect and are kept only as documentation for the
+    # intended routing contract should the Docker provider be re-enabled.
     labels:
       - traefik.enable=true
       - traefik.http.routers.backend.rule=Host(`${BACKEND_HOSTNAME:-api.dpp.localhost}`)
@@ -121,6 +124,9 @@ services:
     depends_on:
       backend:
         condition: service_started
+    # Traefik routing is driven by the file provider (infra/traefik/dynamic.yml).
+    # These labels have no effect and are kept only as documentation for the
+    # intended routing contract should the Docker provider be re-enabled.
     labels:
       - traefik.enable=true
       - traefik.http.routers.frontend.rule=Host(`${FRONTEND_HOSTNAME:-dpp.localhost}`)

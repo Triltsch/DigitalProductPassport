@@ -51,16 +51,22 @@ class Settings(BaseSettings):
         return self.database_url
 
     @property
+    def _keycloak_issuer_base_url(self) -> str:
+        """Return the issuer URL normalized for building derived Keycloak endpoints."""
+
+        return self.keycloak_issuer_url.strip().rstrip("/")
+
+    @property
     def keycloak_openid_configuration_url(self) -> str:
         """Return the realm OpenID configuration endpoint."""
 
-        return f"{self.keycloak_issuer_url.rstrip('/').rstrip()}/.well-known/openid-configuration"
+        return f"{self._keycloak_issuer_base_url}/.well-known/openid-configuration"
 
     @property
     def keycloak_jwks_url(self) -> str:
         """Return the Keycloak JWKS endpoint derived from the issuer URL."""
 
-        return f"{self.keycloak_issuer_url.rstrip('/').rstrip()}/protocol/openid-connect/certs"
+        return f"{self._keycloak_issuer_base_url}/protocol/openid-connect/certs"
 
 
 @lru_cache(maxsize=1)

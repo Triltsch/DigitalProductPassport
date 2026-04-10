@@ -43,10 +43,12 @@
       "serviceAccountsEnabled": false,
       "redirectUris": [
         "http://dpp.localhost/*",
+        "http://localhost/*",
         "http://localhost:5173/*"
       ],
       "webOrigins": [
         "http://dpp.localhost",
+        "http://localhost",
         "http://localhost:5173"
       ],
       "attributes": {
