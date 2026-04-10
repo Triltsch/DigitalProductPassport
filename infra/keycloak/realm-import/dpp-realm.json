@@ -1,0 +1,89 @@
+{
+  "realm": "dpp",
+  "enabled": true,
+  "displayName": "Digital Product Passport",
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "rememberMe": true,
+  "roles": {
+    "realm": [
+      {
+        "name": "ADMIN",
+        "description": "Platform administrator role for local development."
+      },
+      {
+        "name": "MANUFACTURER",
+        "description": "Manufacturer tenant role."
+      },
+      {
+        "name": "SUPPLIER",
+        "description": "Supplier tenant role."
+      },
+      {
+        "name": "AUDITOR",
+        "description": "Auditor role for certification and verification flows."
+      },
+      {
+        "name": "CUSTOMER",
+        "description": "Read-oriented customer role."
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "dpp-frontend",
+      "name": "DPP Frontend",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [
+        "http://dpp.localhost/*",
+        "http://localhost/*",
+        "http://localhost:5173/*"
+      ],
+      "webOrigins": [
+        "http://dpp.localhost",
+        "http://localhost",
+        "http://localhost:5173"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+      "defaultClientScopes": [
+        "web-origins",
+        "profile",
+        "roles",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "clientId": "dpp-backend",
+      "name": "DPP Backend",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "dpp-backend-dev-secret",
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true,
+      "defaultClientScopes": [
+        "roles"
+      ],
+      "optionalClientScopes": [
+        "microprofile-jwt"
+      ]
+    }
+  ]
+}

@@ -87,7 +87,12 @@ services:
       MINIO_ENDPOINT: ${MINIO_ENDPOINT:-minio:9000}
       MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioadmin}
       MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-changeme}
+      KEYCLOAK_FRONTEND_CLIENT_ID: ${KEYCLOAK_FRONTEND_CLIENT_ID:-dpp-frontend}
+      KEYCLOAK_BACKEND_CLIENT_ID: ${KEYCLOAK_BACKEND_CLIENT_ID:-dpp-backend}
       KEYCLOAK_ISSUER_URL: ${KEYCLOAK_ISSUER_URL:-http://keycloak:8080/realms/dpp}
+      JWT_AUDIENCE: ${JWT_AUDIENCE:-dpp-backend}
+      JWT_ALGORITHM: ${JWT_ALGORITHM:-RS256}
+      KEYCLOAK_PRELOAD_JWKS: ${KEYCLOAK_PRELOAD_JWKS:-false}
     depends_on:
       postgres:
         condition: service_healthy
@@ -97,6 +102,9 @@ services:
         condition: service_started
       keycloak:
         condition: service_started
+    # Traefik routing is driven by the file provider (infra/traefik/dynamic.yml).
+    # These labels have no effect and are kept only as documentation for the
+    # intended routing contract should the Docker provider be re-enabled.
     labels:
       - traefik.enable=true
       - traefik.http.routers.backend.rule=Host(`${BACKEND_HOSTNAME:-api.dpp.localhost}`)
@@ -116,6 +124,9 @@ services:
     depends_on:
       backend:
         condition: service_started
+    # Traefik routing is driven by the file provider (infra/traefik/dynamic.yml).
+    # These labels have no effect and are kept only as documentation for the
+    # intended routing contract should the Docker provider be re-enabled.
     labels:
       - traefik.enable=true
       - traefik.http.routers.frontend.rule=Host(`${FRONTEND_HOSTNAME:-dpp.localhost}`)
@@ -125,15 +136,15 @@ services:
       - dpp_public
 
   traefik:
-    image: traefik:v3.1
+    image: traefik:v3.3
     restart: unless-stopped
     command:
       - --configFile=/etc/traefik/traefik.yml
     ports:
       - "80:80"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./infra/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./infra/traefik/dynamic.yml:/etc/traefik/dynamic.yml:ro
     depends_on:
       frontend:
         condition: service_started
